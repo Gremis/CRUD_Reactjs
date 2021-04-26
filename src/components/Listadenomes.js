@@ -13,6 +13,10 @@ const Listadenomes = () => {
     setListanomes([...listanomes, novoNome]);
     setNome("");
   };
+  const deleteNome = (id) => {
+    const novoArray = listanomes.filter((item) => item.id !== id);
+    setListanomes(novoArray);
+  };
   return (
     <div>
       <h2>Sistema CRUD Básico</h2>
@@ -23,6 +27,14 @@ const Listadenomes = () => {
             {listanomes.map((item) => (
               <li key="{item.id}" className="list-group-item">
                 {item.tituloNome}
+                <button
+                  onClick={() => {
+                    deleteNome(item.id);
+                  }}
+                  className="btn btn-danger float-right"
+                >
+                  APAGAR
+                </button>
               </li>
             ))}
           </ul>
@@ -37,7 +49,7 @@ const Listadenomes = () => {
               className="form-control mb-3"
               type="text"
               placeholder="Insira um nome"
-              value = {nome}
+              value={nome}
             />
             <input
               className="btn btn-info btn-block"
