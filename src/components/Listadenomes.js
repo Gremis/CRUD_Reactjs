@@ -4,31 +4,41 @@ import uniqid from "uniqid";
 const Listadenomes = () => {
   const [nome, setNome] = useState("");
   const [listanomes, setListanomes] = useState([]);
-  const [modoEditar, setModoEditar] = useState(false)
-  const [id, setId] = useState('')
+  const [modoEditar, setModoEditar] = useState(false);
+  const [id, setId] = useState("");
+  const [error, setError] = useState(null);
   const addNome = (e) => {
     e.preventDefault();
+    if (!nome.trim()) {
+      setError("O campo não foi preenchido");
+      return;
+    }
     const novoNome = {
       id: uniqid(),
       tituloNome: nome,
     };
     setListanomes([...listanomes, novoNome]);
     setNome("");
+    setError(null);
   };
   const deleteNome = (id) => {
     const novoArray = listanomes.filter((item) => item.id !== id);
     setListanomes(novoArray);
   };
   const editar = (item) => {
-    setModoEditar(true)
-    setNome(item.tituloNome)
-    setId(item.id)
-  }
+    setModoEditar(true);
+    setNome(item.tituloNome);
+    setId(item.id);
+  };
   const editarNome = (e) => {
-    e.preventDefault()
-    const novoArray = listanomes.map(item => item.id === id ? {id:id, tituloNome:nome}: item)
-    setListanomes(novoArray)
-  }
+    e.preventDefault();
+    const novoArray = listanomes.map((item) =>
+      item.id === id ? { id: id, tituloNome: nome } : item
+    );
+    setListanomes(novoArray);
+    setModoEditar(false);
+    setNome("");
+  };
   return (
     <div>
       <h2>Sistema CRUD Básico</h2>
@@ -61,7 +71,10 @@ const Listadenomes = () => {
         </div>
         <div className="col">
           <h2>Formulário para adicionar nomes</h2>
-          <form onSubmit={modoEditar ? editarNome : addNome} className="form-group">
+          <form
+            onSubmit={modoEditar ? editarNome : addNome}
+            className="form-group"
+          >
             <input
               onChange={(e) => {
                 setNome(e.target.value);
@@ -74,9 +87,14 @@ const Listadenomes = () => {
             <input
               className="btn btn-info btn-block"
               type="submit"
-              value={modoEditar ? "Editar Nome": "Registrar Nome"}
+              value={modoEditar ? "Editar Nome" : "Registrar Nome"}
             />
           </form>
+          {error != null ? (
+            <div className="alert alert-danger">{error}</div>
+          ) : (
+            <div></div>
+          )}
         </div>
       </div>
     </div>
