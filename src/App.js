@@ -1,10 +1,10 @@
 import React from "react";
+import Listadenomes from "./components/Listadenomes";
 
 function App() {
   return (
     <div className="container">
-      <p className="btn-success btn"></p>
-      
+      <Listadenomes/>
     </div>
   );
 }
